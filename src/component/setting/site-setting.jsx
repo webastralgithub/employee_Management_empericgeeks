@@ -1,1 +1,1 @@
-export const siteSetting = "http://112.196.64.119:4800/api/auth/";
+export const siteSetting = "http://112.196.64.119:4800/api/";

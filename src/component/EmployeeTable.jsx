@@ -15,7 +15,7 @@ import { Button } from "react-bootstrap";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
-
+import { siteSetting } from "./setting/site-setting";
 
 const override = css`
   display: block;
@@ -32,8 +32,8 @@ class AdminEmployeeTable extends Component {
 
     columnDefs: [
       {
-        headerName: "Employee Code",
-        field: "EmployeeCode",
+        headerName: "Employee_ID",
+        field: "Employee_ID",
         sortable: true,
         width: 140,
         // filter: true ,
@@ -72,6 +72,14 @@ class AdminEmployeeTable extends Component {
       {
         headerName: "Last Name",
         field: "LastName",
+        sortable: true,
+        width: 110,
+
+        // filter: true ,
+      },
+      {
+        headerName: "Gender",
+        field: "Gender",
         sortable: true,
         width: 110,
 
@@ -123,6 +131,15 @@ class AdminEmployeeTable extends Component {
       {
         headerName: "Date Of Joining",
         field: "DateOfJoining",
+        sortable: true
+        ,
+        width: 120,
+        // filter: true ,
+
+      },
+      {
+        headerName: "Leave Application",
+        field: "leaveApplication",
         sortable: true
         ,
         width: 120,
@@ -186,33 +203,35 @@ class AdminEmployeeTable extends Component {
 
   loadEmployeeData = () => {
     axios
-      .get(process.env.REACT_APP_API_URL + "/api/employee", {
+      .get(siteSetting + "hr/getEpmList", {
         headers: {
-          authorization: localStorage.getItem("token") || ""
+          token: localStorage.getItem("rememberMe") || ""
         }
       })
       .then(response => {
         this.employeeObj = response.data;
-        console.log("response", response.data);
+        console.log("response", response?.data);
         this.setState({ employeeData: response.data });
         this.setState({ loading: false });
         this.rowDataT = [];
-        this.employeeObj.map(data => {
+        this.employeeData.map(data => {
           let temp = {
             data,
             Email: data["Email"],
-            Password: data["Password"],
+            // Password: data["Password"],
             Account: data["Account"] == 1 ? "Admin" : (data["Account"] == 2 ? "HR" : (data["Account"] == 3 ? "Employee" : "")),
-            RoleName: data["role"][0]["RoleName"],
+            RoleName: data["roleType"][0],
             FirstName: data["FirstName"],
             MiddleName: data["MiddleName"],
             LastName: data["LastName"],
-            DOB: data["DOB"].slice(0, 10),
-            ContactNo: data["ContactNo"],
-            EmployeeCode: data["EmployeeCode"],
-            DepartmentName: data["department"][0]["DepartmentName"],
-            PositionName: data["position"][0]["PositionName"],
-            DateOfJoining: data["DateOfJoining"].slice(0, 10)
+            Gender: data["Gender"],
+            leaveApplication: data["leaveApplication"],
+            // DOB: data["DOB"].slice(0, 10),
+            // ContactNo: data["ContactNo"],
+            Employee_ID: data["_id"],
+            DepartmentName: data["department"][0],
+            PositionName: data["position"][0],
+            // DateOfJoining: data["DateOfJoining"].slice(0, 10)
           };
 
           this.rowDataT.push(temp);

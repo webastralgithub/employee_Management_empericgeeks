@@ -16,6 +16,7 @@ import Employee from "../Employee.jsx";
 import Salary from "../Salary.jsx";
 import LeaveApplicationHR from "./LeaveApplicationHR.jsx";
 import NotFound404 from "../NotFound404.jsx";
+import { siteSetting } from "../setting/site-setting";
 
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

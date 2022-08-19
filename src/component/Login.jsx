@@ -44,7 +44,7 @@ class Login extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     console.log("call");
-    const url = siteSetting + "login";
+    const url = siteSetting + "auth/login";
     const body = {
       Email: this.state.username,
       Password: this.state.password,
